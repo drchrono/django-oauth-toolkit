@@ -293,10 +293,10 @@ class OAuth2Validator(RequestValidator):
 
     def save_bearer_token(self, token, request, *args, **kwargs):
         """
-        Save access and refresh token, If refresh token is issued, remove old refresh tokens as
-        in rfc:`6`
+        Save access and refresh token, If refresh token is issued, remove old refresh tokens
+        per user setting, as this is optional in rfc:`6`
         """
-        if request.refresh_token:
+        if request.refresh_token and oauth2_settings.REVOKE_REFRESH_TOKEN_AFTER_USE:
             # remove used refresh token
             try:
                 RefreshToken.objects.get(token=request.refresh_token).revoke()
