@@ -110,7 +110,7 @@ class AuthorizationView(BaseAuthorizationView, FormView):
     def get(self, request, *args, **kwargs):
         try:
             scopes, credentials = self.validate_authorization_request(request)
-            kwargs['scopes_descriptions'] = [oauth2_settings.SCOPES[scope] for scope in scopes]
+            kwargs['scopes_descriptions'] = [oauth2_settings.SCOPES[scope] for scope in scopes if oauth2_settings.SCOPES[scope]]
             kwargs['scopes'] = scopes
             # at this point we know an Application instance with such client_id exists in the database
             application = get_application_model().objects.get(client_id=credentials['client_id'])  # TODO: cache it!
