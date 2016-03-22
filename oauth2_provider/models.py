@@ -148,7 +148,7 @@ class Grant(models.Model):
     code = models.CharField(max_length=255, db_index=True)  # code comes from oauthlib
     application = models.ForeignKey(oauth2_settings.APPLICATION_MODEL)
     expires = models.DateTimeField()
-    redirect_uri = models.CharField(max_length=255)
+    redirect_uri = models.CharField(max_length=512)
     scope = models.TextField(blank=True)
 
     def is_expired(self):
