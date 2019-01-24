@@ -6,7 +6,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("oauth2_provider", "0003_increase_redirect_uri")]
+    dependencies = [("oauth2_provider", "0004_merge")]
 
     operations = [
         migrations.AlterIndexTogether(
