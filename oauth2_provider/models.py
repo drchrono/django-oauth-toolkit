@@ -260,6 +260,9 @@ class RefreshToken(models.Model):
     access_token = models.OneToOneField(AccessToken,
                                         related_name='refresh_token')
 
+    class Meta:
+        index_together = ["application", "user"]
+
     def revoke(self):
         """
         Delete this refresh token along with related access token
