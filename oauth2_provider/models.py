@@ -261,7 +261,7 @@ class RefreshToken(models.Model):
                                         related_name='refresh_token')
 
     class Meta:
-        index_together = ["application_id", "user_id"]
+        index_together = ["application", "user"]
 
     def revoke(self):
         """
