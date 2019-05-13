@@ -199,7 +199,7 @@ class AbstractGrant(models.Model):
         oauth2_settings.APPLICATION_MODEL, on_delete=models.CASCADE
     )
     expires = models.DateTimeField()
-    redirect_uri = models.CharField(max_length=255)
+    redirect_uri = models.CharField(max_length=512)
     scope = models.TextField(blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
@@ -354,6 +354,9 @@ class AbstractRefreshToken(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     revoked = models.DateTimeField(null=True)
+
+    class Meta:
+        index_together = ["application", "user"]
 
     def revoke(self):
         """

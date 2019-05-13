@@ -131,7 +131,7 @@ class AuthorizationView(BaseAuthorizationView, FormView):
             return self.error_response(error, application=None)
 
         all_scopes = get_scopes_backend().get_all_scopes()
-        kwargs["scopes_descriptions"] = [all_scopes[scope] for scope in scopes]
+        kwargs["scopes_descriptions"] = [all_scopes[scope] for scope in scopes if all_scopes[scope]]
         kwargs["scopes"] = scopes
         # at this point we know an Application instance with such client_id exists in the database
 
