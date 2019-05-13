@@ -355,9 +355,6 @@ class AbstractRefreshToken(models.Model):
     updated = models.DateTimeField(auto_now=True)
     revoked = models.DateTimeField(null=True)
 
-    class Meta:
-        index_together = ["application", "user"]
-
     def revoke(self):
         """
         Mark this refresh token revoked and revoke related access token
@@ -385,6 +382,7 @@ class AbstractRefreshToken(models.Model):
     class Meta:
         abstract = True
         unique_together = ("token", "revoked",)
+        index_together = ["application", "user"]
 
 
 class RefreshToken(AbstractRefreshToken):
