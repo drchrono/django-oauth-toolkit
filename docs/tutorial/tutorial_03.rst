@@ -22,10 +22,18 @@ which takes care of token verification. In your settings.py:
         '...',
     )
 
-    MIDDLEWARE_CLASSES = (
+    MIDDLEWARE = (
         '...',
         # If you use SessionAuthenticationMiddleware, be sure it appears before OAuth2TokenMiddleware.
         # SessionAuthenticationMiddleware is NOT required for using django-oauth-toolkit.
+        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+        'oauth2_provider.middleware.OAuth2TokenMiddleware',
+        '...',
+    )
+
+    # Or on Django<1.10:
+    MIDDLEWARE_CLASSES = (
+        '...',
         'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
         'oauth2_provider.middleware.OAuth2TokenMiddleware',
         '...',
@@ -65,11 +73,10 @@ To check everything works properly, mount the view above to some url:
 
 .. code-block:: python
 
-    urlpatterns = patterns(
-        '',
+    urlpatterns = [
         url(r'^secret$', 'my.views.secret_page', name='secret'),
         '...',
-    )
+    ]
 
 You should have an :term:`Application` registered at this point, if you don't, follow the steps in
 the previous tutorials to create one. Obtain an :term:`Access Token`, either following the OAuth2

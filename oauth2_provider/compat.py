@@ -1,45 +1,27 @@
 """
 The `compat` module provides support for backwards compatibility with older
-versions of django and python..
+versions of django and python.
 """
-
+# flake8: noqa
 from __future__ import unicode_literals
 
-import django
-from django.conf import settings
 
 # urlparse in python3 has been renamed to urllib.parse
 try:
-    from urlparse import urlparse, parse_qs, parse_qsl, urlunparse
+    from urlparse import parse_qs, parse_qsl, urlparse, urlsplit, urlunparse, urlunsplit
 except ImportError:
-    from urllib.parse import urlparse, parse_qs, parse_qsl, urlunparse
+    from urllib.parse import parse_qs, parse_qsl, urlparse, urlsplit, urlunsplit, urlunparse
 
 try:
-    from urllib import urlencode, unquote_plus
+    from urllib import urlencode, quote_plus, unquote_plus
 except ImportError:
-    from urllib.parse import urlencode, unquote_plus
+    from urllib.parse import urlencode, quote_plus, unquote_plus
 
-# Django 1.5 add support for custom auth user model
-if django.VERSION >= (1, 5):
-    AUTH_USER_MODEL = settings.AUTH_USER_MODEL
-else:
-    AUTH_USER_MODEL = 'auth.User'
-
+# bastb Django 1.10 has updated Middleware. This code imports the Mixin required to get old-style
+# middleware working again
+# More?
+#  https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
 try:
-    from django.contrib.auth import get_user_model
+    from django.utils.deprecation import MiddlewareMixin
 except ImportError:
-    from django.contrib.auth.models import User
-    get_user_model = lambda: User
-
-# Django's new application loading system
-try:
-    from django.apps import apps
-    get_model = apps.get_model
-except ImportError:
-    from django.db.models import get_model
-
-# Django 1.5 add the support of context variables for the url template tag
-if django.VERSION >= (1, 5):
-    from django.template.defaulttags import url
-else:
-    from django.templatetags.future import url
+    MiddlewareMixin = object

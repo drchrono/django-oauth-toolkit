@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 import json
 
 from oauthlib import oauth2
-from oauthlib.common import urlencode, urlencoded, quote
+from oauthlib.common import quote, urlencode, urlencoded
 
-from .exceptions import OAuthToolkitError, FatalClientError
-from .settings import oauth2_settings
 from .compat import urlparse, urlunparse
+from .exceptions import FatalClientError, OAuthToolkitError
+from .settings import oauth2_settings
 
 
 class OAuthLibCore(object):
@@ -22,13 +22,13 @@ class OAuthLibCore(object):
 
     def _get_escaped_full_path(self, request):
         """
-        Django considers "safe" some characters that aren't so for oauthlib. We have to search for
-        them and properly escape.
+        Django considers "safe" some characters that aren't so for oauthlib.
+        We have to search for them and properly escape.
         """
         parsed = list(urlparse(request.get_full_path()))
         unsafe = set(c for c in parsed[4]).difference(urlencoded)
         for c in unsafe:
-            parsed[4] = parsed[4].replace(c, quote(c, safe=b''))
+            parsed[4] = parsed[4].replace(c, quote(c, safe=b""))
 
         return urlunparse(parsed)
 
@@ -45,8 +45,9 @@ class OAuthLibCore(object):
 
     def _extract_params(self, request):
         """
-        Extract parameters from the Django request object. Such parameters will then be passed to
-        OAuthLib to build its own Request object. The body should be encoded using OAuthLib urlencoded
+        Extract parameters from the Django request object.
+        Such parameters will then be passed to OAuthLib to build its own
+        Request object. The body should be encoded using OAuthLib urlencoded.
         """
         uri = self._get_escaped_full_path(request)
         http_method = request.method
@@ -61,12 +62,12 @@ class OAuthLibCore(object):
         :return: a dictionary with OAuthLib needed headers
         """
         headers = request.META.copy()
-        if 'wsgi.input' in headers:
-            del headers['wsgi.input']
-        if 'wsgi.errors' in headers:
-            del headers['wsgi.errors']
-        if 'HTTP_AUTHORIZATION' in headers:
-            headers['Authorization'] = headers['HTTP_AUTHORIZATION']
+        if "wsgi.input" in headers:
+            del headers["wsgi.input"]
+        if "wsgi.errors" in headers:
+            del headers["wsgi.errors"]
+        if "HTTP_AUTHORIZATION" in headers:
+            headers["Authorization"] = headers["HTTP_AUTHORIZATION"]
 
         return headers
 
@@ -109,21 +110,22 @@ class OAuthLibCore(object):
         """
         try:
             if not allow:
-                raise oauth2.AccessDeniedError()
+                raise oauth2.AccessDeniedError(
+                    state=credentials.get("state", None))
 
             # add current user to credentials. this will be used by OAUTH2_VALIDATOR_CLASS
-            credentials['user'] = request.user
+            credentials["user"] = request.user
 
             headers, body, status = self.server.create_authorization_response(
-                uri=credentials['redirect_uri'], scopes=scopes, credentials=credentials)
+                uri=credentials["redirect_uri"], scopes=scopes, credentials=credentials)
             uri = headers.get("Location", None)
 
             return uri, headers, body, status
 
         except oauth2.FatalClientError as error:
-            raise FatalClientError(error=error, redirect_uri=credentials['redirect_uri'])
+            raise FatalClientError(error=error, redirect_uri=credentials["redirect_uri"])
         except oauth2.OAuth2Error as error:
-            raise OAuthToolkitError(error=error, redirect_uri=credentials['redirect_uri'])
+            raise OAuthToolkitError(error=error, redirect_uri=credentials["redirect_uri"])
 
     def create_token_response(self, request):
         """
@@ -170,7 +172,7 @@ class OAuthLibCore(object):
 
 class JSONOAuthLibCore(OAuthLibCore):
     """
-    Extends the default OAuthLibCore to parse correctly requests with application/json Content-Type
+    Extends the default OAuthLibCore to parse correctly application/json requests
     """
     def extract_body(self, request):
         """
@@ -179,7 +181,7 @@ class JSONOAuthLibCore(OAuthLibCore):
         :return: provided POST parameters "urlencodable"
         """
         try:
-            body = json.loads(request.body.decode('utf-8')).items()
+            body = json.loads(request.body.decode("utf-8")).items()
         except ValueError:
             body = ""
 

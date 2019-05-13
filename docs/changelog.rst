@@ -1,8 +1,34 @@
 Changelog
 =========
 
-0.10.0 [2015-12-14]
+0.12.0 [2017-02-24]
+-------------------
+
+* **New feature**: Class-based scopes backends. Listing scopes, available scopes and default scopes
+  is now done through the class that the `SCOPES_BACKEND_CLASS` setting points to.
+  By default, this is set to `oauth2_provider.scopes.SettingsScopes` which implements the
+  legacy settings-based scope behaviour. No changes are necessary.
+* **Dropped support for Python 3.2 and Python 3.3**, added support for Python 3.6
+* Support for the `scopes` query parameter, deprecated in 0.6.1, has been dropped
+* #448: Added support for customizing applications' allowed grant types
+* #141: The `is_usable(request)` method on the Application model can be overridden to dynamically
+  enable or disable applications.
+* #434: Relax URL patterns to allow for UUID primary keys
+
+
+0.11.0 [2016-12-1]
 ------------------
+
+* #424: Added a ROTATE_REFRESH_TOKEN setting to control whether refresh tokens are reused or not
+* #315: AuthorizationView does not overwrite requests on get
+* #425: Added support for Django 1.10
+* #396: Added an IsAuthenticatedOrTokenHasScope Permission
+* #357: Support multiple-user clients by allowing User to be NULL for Applications
+* #389: Reuse refresh tokens if enabled.
+
+
+0.10.0 [2015-12-14]
+-------------------
 
 * **#322: dropping support for python 2.6 and django 1.4, 1.5, 1.6**
 * #310: Fixed error that could occur sometimes when checking validity of incomplete AccessToken/Grant
@@ -164,7 +190,7 @@ Changelog
  * Bugfix #27: OAuthlib refresh token refactoring
 
 0.3.0 [2013-06-14]
-----------------------
+------------------
 
  * `Django REST Framework <http://django-rest-framework.org/>`_ integration layer
  * Bugfix #13: Populate request with client and user in validate_bearer_token

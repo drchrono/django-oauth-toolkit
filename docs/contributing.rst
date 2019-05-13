@@ -5,17 +5,16 @@ Contributing
 Setup
 =====
 
-Fork `django-oauth-toolkit` repository on `GitHub <https://github.com/evonove/django-oauth-toolkit>`_ and follow these steps:
+Fork `django-oauth-toolkit` repository on `GitHub <https://github.com/jazzband/django-oauth-toolkit>`_ and follow these steps:
 
  * Create a virtualenv and activate it
  * Clone your repository locally
- * cd into the repository and type `pip install -r requirements/optional.txt` (this will install both optional and base requirements, useful during development)
 
 Issues
 ======
 
 You can find the list of bugs, enhancements and feature requests on the
-`issue tracker <https://github.com/evonove/django-oauth-toolkit/issues>`_. If you want to fix an issue, pick up one and
+`issue tracker <https://github.com/jazzband/django-oauth-toolkit/issues>`_. If you want to fix an issue, pick up one and
 add a comment stating you're working on it. If the resolution implies a discussion or if you realize the comments on the
 issue are growing pretty fast, move the discussion to the `Google Group <http://groups.google.com/group/django-oauth-toolkit>`_.
 
@@ -47,12 +46,12 @@ of the pull request.
 Pull upstream changes into your fork regularly
 ==============================================
 
-It's a good practice to pull upstream changes from master into your fork on a regular basis, infact if you work on
+It's a good practice to pull upstream changes from master into your fork on a regular basis, in fact if you work on
 outdated code and your changes diverge too far from master, the pull request has to be rejected.
 
 To pull in upstream changes::
 
-    git remote add upstream https://github.com/evonove/django-oauth-toolkit.git
+    git remote add upstream https://github.com/jazzband/django-oauth-toolkit.git
     git fetch upstream
 
 Then merge the changes that you fetched::
@@ -85,7 +84,7 @@ Add the tests!
 --------------
 
 Whenever you add code, you have to add tests as well. We cannot accept untested code, so unless it is a peculiar
-situation you previously discussed with the core commiters, if your pull request reduces the test coverage it will be
+situation you previously discussed with the core committers, if your pull request reduces the test coverage it will be
 **immediately rejected**.
 
 Code conventions matter

@@ -1,7 +1,9 @@
 from django.views.generic import View
 
 from ..settings import oauth2_settings
-from .mixins import ProtectedResourceMixin, ScopedResourceMixin, ReadWriteScopedResourceMixin
+from .mixins import (
+    ProtectedResourceMixin, ReadWriteScopedResourceMixin, ScopedResourceMixin
+)
 
 
 class ProtectedResourceView(ProtectedResourceMixin, View):

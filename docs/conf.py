@@ -11,7 +11,14 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os, re
+import os
+import re
+import sys
+
+import django
+
+import oauth2_provider
+
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -19,10 +26,11 @@ import sys, os, re
 here = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, here)
 sys.path.insert(0, os.path.dirname(here))
-sys.path.insert(0, os.path.join(os.path.dirname(here), 'example'))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'oauth2_provider.tests.settings'
-import oauth2_provider
+os.environ["DJANGO_SETTINGS_MODULE"] = "tests.settings"
+
+django.setup()
+
 
 # -- General configuration -----------------------------------------------------
 
@@ -50,20 +58,12 @@ project = u'Django OAuth Toolkit'
 copyright = u'2013, Evonove'
 
 
-def get_version(package):
-    """
-    Return package version as listed in `__version__` in `init.py`.
-    """
-    init_py = open(os.path.join(package, '__init__.py')).read()
-    return re.match("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
-
-
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = get_version(os.path.join("..", "oauth2_provider"))
+version = oauth2_provider.__version__
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -103,6 +103,13 @@ pygments_style = 'sphinx'
 
 # If true, keep warnings as "system message" paragraphs in the built documents.
 #keep_warnings = False
+
+
+# http://www.sphinx-doc.org/en/1.5.1/ext/intersphinx.html
+extensions.append('sphinx.ext.intersphinx')
+intersphinx_mapping = {'python3': ('https://docs.python.org/3.6', None),
+                       'django': ('http://django.readthedocs.org/en/latest/', None)}
+
 
 
 # -- Options for HTML output ---------------------------------------------------
