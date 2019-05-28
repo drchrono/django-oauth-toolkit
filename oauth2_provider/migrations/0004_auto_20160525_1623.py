@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL("SET SESSION max_statement_time=600;"),
         migrations.AlterField(
             model_name='accesstoken',
             name='token',
