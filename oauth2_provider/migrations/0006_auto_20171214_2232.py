@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("SET SESSION max_statement_time=600;"),
+        migrations.RunSQL("SET SESSION max_statement_time=3600;"),
         migrations.AddField(
             model_name='accesstoken',
             name='source_refresh_token',
