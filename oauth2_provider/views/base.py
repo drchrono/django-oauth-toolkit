@@ -208,7 +208,8 @@ class TokenView(OAuthLibMixin, View):
             access_token = json.loads(body).get("access_token")
             if access_token is not None:
                 token = get_access_token_model().objects.get(
-                    token=access_token)
+                    token=access_token
+                ).using("default")
                 app_authorized.send(
                     sender=self, request=request,
                     token=token)
