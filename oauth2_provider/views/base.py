@@ -207,9 +207,9 @@ class TokenView(OAuthLibMixin, View):
         if status == 200:
             access_token = json.loads(body).get("access_token")
             if access_token is not None:
-                token = get_access_token_model().objects.get(
+                token = get_access_token_model().objects.filter(
                     token=access_token
-                ).using("default")
+                ).using("default").get()
                 app_authorized.send(
                     sender=self, request=request,
                     token=token)
