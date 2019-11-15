@@ -358,6 +358,7 @@ class OAuth2Validator(RequestValidator):
         """
         if not token:
             self._set_oauth2_error_on_request(request, None, scopes)
+            # This is a temporary logging 
             log.exception("Authorization failed. No valid token provided.")
             return False
 
