@@ -357,6 +357,12 @@ class OAuth2Validator(RequestValidator):
         When users try to access resources, check that provided token is valid
         """
         if not token:
+            self._set_oauth2_error_on_request(request, None, scopes)
+            # This is a temporary logging
+            # As the auth header will be filtered out in sentry
+            # add a sample token to exception
+            _token = request.headers.get("Authorization", "")[:10]
+            log.exception("Authorization failed. No token provided. Auth: [{}]".format(_token))
             return False
 
         introspection_url = oauth2_settings.RESOURCE_SERVER_INTROSPECTION_URL
