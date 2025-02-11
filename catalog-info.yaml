@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: django-oauth-toolkit
+  description: OAuth2 goodies for the Djangonauts!
+  annotations:
+    business-unit: EverHealth
+    github.com/project-slug: drchrono/django-oauth-toolkit
+    product: DRC
+spec:
+  type: service
+  lifecycle: production
+  owner: EverHealth
+  implementation:
+    languages:
+    - Python
+    - HTML
